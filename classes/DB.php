@@ -24,7 +24,7 @@ class DB{
 
         $username = Config::get('db.user');
         $password = Config::get('db.password');
-        $dsn='mysql:dbname='.Config::get('db.db_name').';host='.Config::get('db.host').'';
+        $dsn='mysql:dbname='. Config::get('db.db_name') . ';host=' . Config::get('db.host') .'';
 
         try{
 
@@ -32,6 +32,7 @@ class DB{
 
         }catch(PDOException $e){
 
+            echo "Failed to connect to Database";
             die($e->getMessage());
 
         }
