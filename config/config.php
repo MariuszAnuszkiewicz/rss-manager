@@ -1,25 +1,27 @@
-<?php
+<?php namespace MariuszAnuszkiewicz\classes\Config;
 
-class Config
-{
+class Config {
 
     protected static $settings = array();
 
-    public static function get($key)
-    {
-
+    public static function get($key) {
         return isset(self::$settings[$key]) ? self::$settings[$key] : null;
+    }
 
-    } // end method
-
-    public static function set($key, $value)
-    {
-
+    public static function set($key, $value) {
         self::$settings[$key] = $value;
+    }
+}
 
-    }  // end method
+// database
 
+Config::set('db.host', 'localhost');
+Config::set('db.user', 'root');
+Config::set('db.password', '');
+Config::set('db.db_name', 'rss');
 
-}// end class
+// select time remove
 
-?>
+Config::set('set_10_days', '10');
+Config::set('set_20_days', '20');
+Config::set('set_30_days', '30');

@@ -1,27 +1,21 @@
-<?php
+<?php namespace MariuszAnuszkiewicz\classes\ValidateInput;
 
-require_once 'autoload/autoloading.php';
+use MariuszAnuszkiewicz\classes\Data\DataStoreXml;
+use MariuszAnuszkiewicz\classes\Database\DB;
 
 class ValidateInput{
 
     private $db;
 
-    public function __construct(){
-
+    public function __construct() {
         $this->db = DB::getInstance();
-
-    }  // end construct
+    }
 
     public function process($submit, $input){
-
         if(isset($submit)) {
-
             if (empty(filter_var($this->db->escape($input), FILTER_VALIDATE_URL))) {
-
                 return null;
-
             } else {
-
                 $domain = strstr($_POST['addrss'], '.');
                 $s1 = strlen($domain);
                 $prepare_str = substr($domain, 1, $s1);
@@ -39,13 +33,7 @@ class ValidateInput{
 
                 $dataRss = new DataStoreXML();
                 $dataRss->addNewRSS($input_complete, filter_var($this->db->escape($input), FILTER_VALIDATE_URL), date('Y-m-d H:i:s'), "no");
-
-            } // end if/else
-
-        } // end if
-
-    } // end method process
-
-} // end class
-
-?>
+            }
+        }
+    }
+}

@@ -1,5 +1,11 @@
 <?php
-include_once("../autoload/autoloading.php");
+use MariuszAnuszkiewicz\classes\Database\DB;
+use MariuszAnuszkiewicz\classes\Data\DataStoreXML;
+
+if (!defined('AUTOLOAD')) {
+    define('AUTOLOAD', '../autoload/');
+}
+include_once(AUTOLOAD . "autoloading.php");
 ?>
 
 <!doctype html>
@@ -7,28 +13,19 @@ include_once("../autoload/autoloading.php");
 <head>
     <meta charset="utf-8">
 </head>
-
 <body>
-
-
-
     <?php
-
     $db =  DB::getInstance();
+    $dataStoreXML = new DataStoreXML();
+    $count = 1;
+    $sql = "SELECT * FROM rss_store ORDER BY url_category";
+    $db->query($sql);
+    $row = $result = $db->results();
 
-        $count = 1;
-        $sql = "SELECT * FROM rss_store ORDER BY url_category";
-        $db->query($sql, "Param_OFF");
-        $row = $result = $db->results();
-
-    if($db->countRow() > 0){
-
-    $title = 'Spis kanałów RSS.';
-
+    if ($db->countRow() > 0) {
+        $title = 'Spis kanałów RSS.';
         echo '<h3 class="title">' . $title . '</h3>';
     ?>
-
-
     <div class='container'>
         <table border='0.7'>
             <tr style='background: whitesmoke;'>
@@ -39,38 +36,28 @@ include_once("../autoload/autoloading.php");
                 <th class="label_delete">Kasowanie</th>
                 <th class="label_isfavorite">Ulubione</th>
             </tr>
-
     <?php
-
-            } // end if
-            else{
-
-                return null;
-            }
+    } else {
+        return null;
+    }
     ?>
     <?php
-
-        for ($i = 0; $i < count($row); $i++) {
-
-            $is_favorite = ($row[$i]['favorite'] == "no") ? 'noactive' : 'active';
-
+    foreach($dataStoreXML->getCanalsRows() as $row) {
+            $is_favorite = ($row['favorite'] == "no") ? 'noactive' : 'active';
     ?>
         <tr>
-            <td class="url" data-id="'<?php echo $row[$i]['id']; ?>'" contenteditable><?php echo $row[$i]['url_category']; ?></td>
-            <td class="address"><?php echo $row[$i]['url_address']; ?></td>
-            <td class="content_favorite"><span class="no_add_favorite" data-id_fav="'<?php echo $row[$i]['id']; ?>'" data-value_fav="'<?php echo $row[$i]['favorite']; ?>'"></span></td>
-            <td class="date"><?php echo $row[$i]['date_to_add']; ?></td>
-            <td align='center'><span class='delete' id='del_<?php echo $row[$i]['id']; ?>'><a>Delete</a></span></td>
-            <td class="favorite_is"><span class="<?php echo $is_favorite; ?>"></span></td>
+            <td class="url" data-id="'<?= $row['id']; ?>'" contenteditable><?= $row['url_category']; ?></td>
+            <td class="address"><?= $row['url_address']; ?></td>
+            <td class="content_favorite"><span class="no_add_favorite" data-id_fav="'<?= $row['id']; ?>'" data-value_fav="'<?= $row['favorite']; ?>'"></span></td>
+            <td class="date"><?= $row['date_to_add']; ?></td>
+            <td align='center'><span class='delete' id='del_<?= $row['id']; ?>'><a>Delete</a></span></td>
+            <td class="favorite_is"><span class="<?= $is_favorite; ?>"></span></td>
         </tr>
-
     <?php
        $count++;
-     } // end for
+     }
     ?>
-
     </table>
 </div>
-
 </body>
 </html>
