@@ -58,7 +58,6 @@ class RSSManager{
     }
 
     public function getImagesServer($url) {
-
         libxml_use_internal_errors(true);
         $source = file_get_contents($url);
         $dom = new \DomDocument();
@@ -70,7 +69,6 @@ class RSSManager{
             $save = file_get_contents($el->getAttribute("content"));
             file_put_contents("web/uploads/" . md5("image") . ".jpg", $save);
         }
-
     }
 
     public function delete($quantity, $data) {
