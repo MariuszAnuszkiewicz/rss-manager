@@ -16,23 +16,26 @@ class ValidateInput{
             if (empty(filter_var($this->db->escape($input), FILTER_VALIDATE_URL))) {
                 return null;
             } else {
-                $domain = strstr($_POST['addrss'], '.');
-                $s1 = strlen($domain);
-                $prepare_str = substr($domain, 1, $s1);
-                $new_str = strstr($prepare_str, '.');
+                if (preg_match_all('/rss.xml$/', $_POST['addrss'])) {
 
-                $length_correct = strlen($new_str);
-                $full_str = strlen($domain);
+                    $domain = strstr($_POST['addrss'], '.');
+                    $s1 = strlen($domain);
+                    $prepare_str = substr($domain, 1, $s1);
+                    $new_str = strstr($prepare_str, '.');
 
-                $cut_str = ($full_str - $length_correct);
-                $input_before = substr($domain, 1, $cut_str - 1);
-                $input_part = substr($domain, 2, $cut_str - 2);
+                    $length_correct = strlen($new_str);
+                    $full_str = strlen($domain);
 
-                $first_letter = strtoupper(substr($input_before,0, 1));
-                $input_complete = $first_letter.$input_part;
+                    $cut_str = ($full_str - $length_correct);
+                    $input_before = substr($domain, 1, $cut_str - 1);
+                    $input_part = substr($domain, 2, $cut_str - 2);
 
-                $dataRss = new DataStoreXML();
-                $dataRss->addNewRSS($input_complete, filter_var($this->db->escape($input), FILTER_VALIDATE_URL), date('Y-m-d H:i:s'), "no");
+                    $first_letter = strtoupper(substr($input_before, 0, 1));
+                    $input_complete = $first_letter . $input_part;
+
+                    $dataRss = new DataStoreXML();
+                    $dataRss->addNewRSS($input_complete, filter_var($this->db->escape($input), FILTER_VALIDATE_URL), date('Y-m-d H:i:s'), "no");
+                }
             }
         }
     }

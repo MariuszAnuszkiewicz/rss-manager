@@ -1,6 +1,8 @@
 <?php
-
-include_once("../autoload/autoloading.php");
+if (!defined('AUTOLOAD')) {
+    define('AUTOLOAD', '../autoload/');
+}
+include_once(AUTOLOAD . "autoloading.php");
 
 if(isset($_POST['id']) && isset($_POST['content_favorite'])) {
     $id = $_POST['id'];

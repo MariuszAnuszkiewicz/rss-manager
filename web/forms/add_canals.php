@@ -16,9 +16,7 @@
 use MariuszAnuszkiewicz\classes\ValidateInput\ValidateInput;
 $validate = new ValidateInput();
 if (isset($_POST['submit_btnAdd'])) {
-    if (preg_match_all('/[rss.xml]$/', $_POST['addrss'])) {
-        $validate->process($_POST['submit_btnAdd'], $_POST['addrss']);
-    }
+      $validate->process($_POST['submit_btnAdd'], $_POST['addrss']);
 }
 ?>
 </body>
